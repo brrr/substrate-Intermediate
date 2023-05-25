@@ -1,3 +1,18 @@
+# Substrate 进阶课程作业
+generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.40
+
+[Lesson 1](https://github.com/brrr/substrate-intermediate) `branch: L1`
+
+[Lesson 2 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L2`
+
+[Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L3`
+
+[Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L4`
+
+[Lesson 5 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L5`
+
+[Lesson 6 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L6`
+
 # Substrate Node Template
 
 A fresh [Substrate](https://substrate.io/) node, ready for hacking :rocket:
