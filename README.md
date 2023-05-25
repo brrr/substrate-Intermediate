@@ -3,6 +3,15 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 1](https://github.com/brrr/substrate-intermediate/tree/L1) `branch: L1`
 
+## 编写存证模块的单元测试代码，包括：
+* 创建存证的测试用例
+* 撤销存证的测试用例
+* 转移存证的测试用例
+
+<img src="./docs/images/lesson1.jpg" width=160>
+
+```cargo test -p pallet-poe```
+
 [Lesson 2 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
 
 [Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
