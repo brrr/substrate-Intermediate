@@ -3,7 +3,7 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 1](https://github.com/brrr/substrate-intermediate) `branch: L1`
 
-[Lesson 2 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L2`
+[Lesson 2 ](https://github.com/brrr/substrate-intermediate) `branch: L2`
 
 [Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L3`
 
