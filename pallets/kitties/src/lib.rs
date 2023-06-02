@@ -1,8 +1,26 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+// SPDX-License-Identifier: MIT
 
-/// <https://docs.substrate.io/reference/frame-pallets/>
+//! # kitties Pallet
+//!
+//! substrate 进阶课程之kitty模块
+//!
+//! ## Interface
+//!
+//! ### Dispatchable Functions
+//!
+//! - `create` - 创建kitty
+//!
+//! - `breed` - 孵化kitty
+//!
+//! - `transfer` - 转移kitty
+
+#![cfg_attr(not(feature = "std"), no_std)]
 pub use pallet::*;
 
+#[cfg(test)]
+mod mock;
+#[cfg(test)]
+mod tests;
 
 #[frame_support::pallet]
 pub mod pallet {
@@ -33,7 +51,7 @@ pub mod pallet {
 	// The pallet's runtime storage items.
 	// https://docs.substrate.io/main-docs/build/runtime-storage/
 	#[pallet::storage]
-	#[pallet::getter(fn next_kittie_id)]
+	#[pallet::getter(fn next_kitty_id)]
 	// Learn more about declaring storage items:
 	// https://docs.substrate.io/main-docs/build/runtime-storage/#declaring-storage-items
 	pub type NextKittyId<T> = StorageValue<_, KittyId, ValueQuery>;

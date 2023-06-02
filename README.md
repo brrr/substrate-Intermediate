@@ -1,9 +1,28 @@
 # Substrate 进阶课程作业
 generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.40
 
-[Lesson 1](https://github.com/brrr/substrate-intermediate) `branch: L1`
+[Lesson 1](https://github.com/brrr/substrate-intermediate/tree/L1) `branch: L1`
 
-[Lesson 2 ](https://github.com/brrr/substrate-intermediate) `branch: L2`
+[Lesson 2 ](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
+
+## 编写kitties模块及单元测试代码，包括：
+* 创建kitty及测试用例
+* 孵化kitty及测试用例
+* 转移kitty及测试用例
+* 测试Event
+
+
+<img src="./docs/images/L2-2.png" width=160>
+
+<img src="./docs/images/L2-3.png" width=160>
+
+```cargo test -p pallet-kitties```
+
+## 加入kitties pallet到runtime中,node可以编译通过
+
+<img src="./docs/images/L2-1.png" width=160>
+
+```./target/release/node-template --dev```
 
 [Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L3`
 
