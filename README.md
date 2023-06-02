@@ -3,24 +3,15 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 1](https://github.com/brrr/substrate-intermediate/tree/L1) `branch: L1`
 
-## 编写存证模块的单元测试代码，包括：
-* 创建存证的测试用例
-* 撤销存证的测试用例
-* 转移存证的测试用例
+[Lesson 2](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
 
-<img src="./docs/images/lesson1.jpg" width=160>
+[Lesson 3](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
 
-```cargo test -p pallet-poe```
+[Lesson 4](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
 
-[Lesson 2 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
+[Lesson 5](https://github.com/brrr/substrate-intermediate/tree/L5) `branch: L5`
 
-[Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
-
-[Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
-
-[Lesson 5 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L5) `branch: L5`
-
-[Lesson 6 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L6) `branch: L6`
+[Lesson 6](https://github.com/brrr/substrate-intermediate/tree/L6) `branch: L6`
 
 # Substrate Node Template
 
