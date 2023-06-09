@@ -19,7 +19,7 @@ pub fn migrate<T: Config>() -> Weight {
         return Weight::zero();
     }
 
-    if current_version != 1 {
+    if current_version != 2 {
         return Weight::zero();
     }
 
