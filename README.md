@@ -5,7 +5,7 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 2 ](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
 
-[Lesson 3](https://github.com/brrr/substrate-intermediate) `branch: L3`
+[Lesson 3](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
 
 ## 跟着视频完成kitties pallet
 
