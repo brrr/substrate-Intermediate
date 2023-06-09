@@ -11,10 +11,10 @@ fn create_kitty_works() {
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id);
         // assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
         assert_noop!(
-            KittiesModule::create(RuntimeOrigin::signed(account_id)), sp_runtime::TokenError::NotExpendable
+            KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"), sp_runtime::TokenError::NotExpendable
             );
         account_id = 1;
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
         assert_eq!(Balances::free_balance(account_id), BALANCE_RAW - KittyPrice::get());
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id + 1);
         assert_eq!(KittiesModule::kitties(kitty_id).is_some(), true);
@@ -29,7 +29,7 @@ fn create_kitty_works() {
         assert_eq!(KittiesModule::kitty_parents(kitty_id), None);
         crate::NextKittyId::<Test>::set(crate::KittyId::max_value());
         assert_noop!(
-            KittiesModule::create(RuntimeOrigin::signed(account_id)), Error::<Test>::InvalidKittyId
+            KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"), Error::<Test>::InvalidKittyId
             );
     })
 }
@@ -38,10 +38,10 @@ fn create_kitty_works() {
 fn breed_kitty_works() {
     new_test_ext().execute_with(|| {
         let account_id = 1;
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
         assert_eq!(KittiesModule::next_kitty_id(), 2);
-        assert_ok!(KittiesModule::breed(RuntimeOrigin::signed(account_id), 0, 1));
+        assert_ok!(KittiesModule::breed(RuntimeOrigin::signed(account_id), 0, 1, *b"cutekitt"));
         assert_eq!(Balances::free_balance(account_id),  BALANCE_RAW - 3 * KittyPrice::get());
         System::assert_last_event(Event::KittyBred
         {
@@ -52,10 +52,10 @@ fn breed_kitty_works() {
         assert_eq!(KittiesModule::kitty_owner(2), Some(account_id));
         assert_eq!(KittiesModule::kitty_parents(2), Some((0, 1)));
         assert_noop!(
-            KittiesModule::breed(RuntimeOrigin::signed(account_id), 1, 1), Error::<Test>::SameKittyId
+            KittiesModule::breed(RuntimeOrigin::signed(account_id), 1, 1, *b"cutekitt"), Error::<Test>::SameKittyId
             );
         assert_noop!(
-            KittiesModule::breed(RuntimeOrigin::signed(account_id), 1, 9999), Error::<Test>::InvalidKittyId
+            KittiesModule::breed(RuntimeOrigin::signed(account_id), 1, 9999, *b"cutekitt"), Error::<Test>::InvalidKittyId
             );
     })
 }
@@ -67,7 +67,7 @@ fn transfer_kitty_works() {
         let account_id = 1;
         let recipient = 2;
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id);
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
         assert_eq!(KittiesModule::kitty_owner(kitty_id), Some(account_id));
         assert_ok!(KittiesModule::transfer(RuntimeOrigin::signed(account_id), recipient, kitty_id));
         assert_eq!(Balances::free_balance(account_id),  BALANCE_RAW -  KittyPrice::get());
@@ -90,7 +90,7 @@ fn sale_kitty_works() {
         let kitty_id = 0;
         let account_id = 1;
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id);
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
         assert_noop!(
             KittiesModule::sale(RuntimeOrigin::signed(9999), kitty_id), Error::<Test>::NotOwner
             );
@@ -118,7 +118,7 @@ fn buy_kitty_works() {
         let buyer_id = 2;
 
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id);
-        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id), *b"cutekitt"));
         assert_noop!(
             KittiesModule::sale(RuntimeOrigin::signed(9999), kitty_id), Error::<Test>::NotOwner
             );
