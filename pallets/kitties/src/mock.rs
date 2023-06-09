@@ -19,6 +19,8 @@ pub type Balance = u128;
 /// Existential deposit.
 pub const EXISTENTIAL_DEPOSIT: u128 = 500;
 
+pub const BALANCE_RAW: u128 = 100 * EXISTENTIAL_DEPOSIT;
+
 frame_support::parameter_types! {
 	pub KittyPalletId: PalletId = PalletId(*b"py/kitty");
 	pub KittyPrice: Balance = EXISTENTIAL_DEPOSIT * 10;
@@ -102,10 +104,10 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
     pallet_balances::GenesisConfig::<Test> {
         balances:
             vec![
-                (1, 100 * EXISTENTIAL_DEPOSIT),
-                (2, 200 * EXISTENTIAL_DEPOSIT),
-                (3, 300 * EXISTENTIAL_DEPOSIT),
-                (4, 400 * EXISTENTIAL_DEPOSIT),
+                (1, BALANCE_RAW),
+                (2, BALANCE_RAW),
+                (3, BALANCE_RAW),
+                (4, BALANCE_RAW),
                 (12, 10 * EXISTENTIAL_DEPOSIT),
             ]
     }
