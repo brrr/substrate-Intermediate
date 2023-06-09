@@ -5,26 +5,30 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 2 ](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
 
-## 编写kitties模块及单元测试代码，包括：
-* 创建kitty及测试用例
-* 孵化kitty及测试用例
-* 转移kitty及测试用例
-* 测试Event
+[Lesson 3](https://github.com/brrr/substrate-intermediate) `branch: L3`
+
+## 跟着视频完成kitties pallet
+
+- 增加Currency, sale/buy方法后Pallet 可以编译
+- 增加新的测试用例
+- 修改runtime, node可以编译通过
+- node节点可以启动
 
 
-<img src="./docs/images/L2-2.png" width=160>
-
-<img src="./docs/images/L2-3.png" width=160>
-
-```cargo test -p pallet-kitties```
-
-## 加入kitties pallet到runtime中,node可以编译通过
-
-<img src="./docs/images/L2-1.png" width=160>
+<img src="./docs/images/L3-1.jpg" width=800>
 
 ```./target/release/node-template --dev```
 
-[Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L3`
+<img src="./docs/images/L3-2.jpg" width=800>
+
+```cargo test -p pallet-kitties```
+
+## Runtime升级
+
+- Kitties pallet v2，将kitties name扩充到8个字节
+- 完成migration代码
+- 验证从v0-v2, v1-v2的升级路径
+
 
 [Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L4`
 
