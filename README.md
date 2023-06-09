@@ -29,6 +29,12 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 - 完成migration代码
 - 验证从v0-v2, v1-v2的升级路径
 
+<img src="./docs/images/L3-3.jpg" width=800>
+
+<img src="./docs/images/L3-v1.png" width=800>
+
+<img src="./docs/images/L3-v2.png" width=800>
+
 
 [Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L4`
 
