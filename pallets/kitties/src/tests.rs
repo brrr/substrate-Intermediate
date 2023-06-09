@@ -7,8 +7,13 @@ use frame_support::{assert_noop, assert_ok};
 fn create_kitty_works() {
     new_test_ext().execute_with(|| {
         let kitty_id = 0;
-        let account_id = 1;
+        let mut account_id = 12;
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id);
+        // assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
+        assert_noop!(
+            KittiesModule::create(RuntimeOrigin::signed(account_id)), sp_runtime::TokenError::NotExpendable
+            );
+        account_id = 1;
         assert_ok!(KittiesModule::create(RuntimeOrigin::signed(account_id)));
         assert_eq!(KittiesModule::next_kitty_id(), kitty_id + 1);
         assert_eq!(KittiesModule::kitties(kitty_id).is_some(), true);
