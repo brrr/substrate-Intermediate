@@ -29,13 +29,70 @@ pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_support::PalletId;
 	use frame_system::pallet_prelude::*;
-
+	use frame_system::{
+		offchain::{
+			AppCrypto, CreateSignedTransaction, SendUnsignedTransaction,
+			SignedPayload, Signer, SigningTypes,
+		},
+	};
+	use sp_runtime::{
+		transaction_validity::{InvalidTransaction, TransactionValidity, ValidTransaction},
+		RuntimeDebug,
+	};
 	use sp_io::hashing::blake2_128;
 	use frame_support::traits::{Randomness, Currency, ExistenceRequirement};
 	use frame_support::traits::tokens::Balance;
 	use sp_runtime::traits::AccountIdConversion;
 	// use sp_core::blake2_128;
 	use migrations;
+	// use sp_runtime::offchain::StorageValueRef;
+	use frame_support::inherent::Vec;
+	use sp_runtime::{
+		offchain::{
+			storage::{MutateStorageError, StorageRetrievalError, StorageValueRef},
+		},
+		traits::Zero,
+	};
+	use sp_io::offchain_index;
+	use sp_std::str;
+	use serde::{Deserialize, Deserializer};
+
+	// use codec::{Decode, Encode};
+
+
+
+	use sp_core::crypto::KeyTypeId;
+
+
+	pub const KEY_TYPE: KeyTypeId = KeyTypeId(*b"btc!");
+	pub mod crypto {
+		use super::KEY_TYPE;
+		use sp_core::sr25519::Signature as Sr25519Signature;
+		use sp_runtime::{
+			app_crypto::{app_crypto, sr25519},
+			traits::Verify,
+			MultiSignature, MultiSigner,
+		};
+		app_crypto!(sr25519, KEY_TYPE);
+
+		pub struct TestAuthId;
+
+		impl frame_system::offchain::AppCrypto<MultiSigner, MultiSignature> for TestAuthId {
+			type RuntimeAppPublic = Public;
+			type GenericSignature = sp_core::sr25519::Signature;
+			type GenericPublic = sp_core::sr25519::Public;
+		}
+
+		// implemented for mock runtime in test
+		impl frame_system::offchain::AppCrypto<<Sr25519Signature as Verify>::Signer, Sr25519Signature>
+		for TestAuthId
+		{
+			type RuntimeAppPublic = Public;
+			type GenericSignature = sp_core::sr25519::Signature;
+			type GenericPublic = sp_core::sr25519::Public;
+		}
+	}
+
 	pub type KittyId = u32;
 	pub type BalanceOf<T> = <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
 
@@ -54,7 +111,7 @@ pub mod pallet {
 
 	/// Configure the pallet by specifying the parameters and types on which it depends.
 	#[pallet::config]
-	pub trait Config: frame_system::Config {
+	pub trait Config: frame_system::Config  + CreateSignedTransaction<Call<Self>>{
 		/// Because this pallet emits events, it depends on the runtime's definition of an event.
 		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 		type Randomness: Randomness<Self::Hash, Self::BlockNumber>;
@@ -62,6 +119,7 @@ pub mod pallet {
 		#[pallet::constant]
 		type KittyPrice: Get<BalanceOf<Self>>;
 		type PalletId: Get<PalletId>;
+		type AuthorityId: AppCrypto<Self::Public, Self::Signature>;
 	}
 
 	// The pallet's runtime storage items.
@@ -116,12 +174,94 @@ pub mod pallet {
 		NotOnSale
 	}
 
+	#[pallet::validate_unsigned]
+	impl<T: Config> ValidateUnsigned for Pallet<T> {
+		type Call = Call<T>;
+
+		/// Validate unsigned call to this module.
+		///
+		/// By default unsigned transactions are disallowed, but implementing the validator
+		/// here we make sure that some particular calls (the ones produced by offchain worker)
+		/// are being whitelisted and marked as valid.
+		fn validate_unsigned(_source: TransactionSource, call: &Self::Call) -> TransactionValidity {
+			const UNSIGNED_TXS_PRIORITY: u64 = 100;
+			let valid_tx = |provide| ValidTransaction::with_tag_prefix("my-pallet")
+				.priority(UNSIGNED_TXS_PRIORITY) // please define `UNSIGNED_TXS_PRIORITY` before this line
+				.and_provides([&provide])
+				.longevity(3)
+				.propagate(true)
+				.build();
+
+			// match call {
+			// 	Call::submit_data_unsigned { key: _ } => valid_tx(b"my_unsigned_tx".to_vec()),
+			// 	_ => InvalidTransaction::Call.into(),
+			// }
+
+			match call {
+				Call::unsigned_extrinsic_with_signed_payload {
+					ref payload,
+					ref signature
+				} => {
+					if !SignedPayload::<T>::verify::<T::AuthorityId>(payload, signature.clone()) {
+						return InvalidTransaction::BadProof.into();
+					}
+					valid_tx(b"unsigned_extrinsic_with_signed_payload".to_vec())
+				},
+				_ => InvalidTransaction::Call.into(),
+			}
+		}
+	}
+
 	#[pallet::hooks]
 	impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
 		fn on_runtime_upgrade() -> Weight {
 			migrations::v1::migrate::<T>();
 			migrations::v2::migrate::<T>();
 			Weight::zero()
+		}
+
+		fn offchain_worker(block_number: T::BlockNumber) {
+			log::info!("OCW ==>  entry offchain_worker at {:?}", block_number);
+			// Reading back the offchain indexing value. This is exactly the same as reading from
+			// ocw local storage.
+			let key = Self::derived_key(block_number);
+			let storage_ref = StorageValueRef::persistent(&key);
+
+			if let Ok(Some(data)) = storage_ref.get::<IndexingData>() {
+				// log::info!("local storage data: {:?}, {:?}",
+				// str::from_utf8(&data.0).unwrap_or("error"), data.1);
+				log::info!("local storage data: {:?}", str::from_utf8(&data.0).unwrap_or("error"));
+
+				log::info!("======>11111");
+				//模拟当某种Index存储存在，且处理后，再次向链上发起交易
+				let number: u64 = 42;
+				// Retrieve the signer to sign the payload
+				let signer = Signer::<T, T::AuthorityId>::any_account();
+				log::info!("======>22222");
+
+				// `send_unsigned_transaction` is returning a type of `Option<(Account<T>, Result<(), ()>)>`.
+				//	 The returned result means:
+				//	 - `None`: no account is available for sending transaction
+				//	 - `Some((account, Ok(())))`: transaction is successfully sent
+				//	 - `Some((account, Err(())))`: error occurred when sending the transaction
+				if let Some((_, res)) = signer.send_unsigned_transaction(
+					// this line is to prepare and return payload
+					|acct| Payload { number, public: acct.public.clone() },
+					|payload, signature| Call::unsigned_extrinsic_with_signed_payload { payload, signature },
+				) {
+					match res {
+						Ok(()) => {log::info!("OCW ==> unsigned tx with signed payload successfully sent.");}
+						Err(()) => {log::error!("OCW ==> sending unsigned tx with signed payload failed.");}
+					};
+				} else {
+					// The case of `None`: no account is available for sending
+					log::error!("OCW ==> No local account available");
+				}
+			} else {
+				log::info!("Error reading from local storage.");
+			}
+
+
 		}
 	}
 
@@ -130,8 +270,30 @@ pub mod pallet {
 	// Dispatchable functions must be annotated with a weight and must return a DispatchResult.
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
-		/// An example dispatchable that takes a singles value as a parameter, writes the value to
-		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
+
+
+		#[pallet::call_index(5)]
+		#[pallet::weight(0)]
+		pub fn save_to_offchain_indexing(origin: OriginFor<T>, msg: Vec<u8>) -> DispatchResult {
+			let who = ensure_signed(origin)?;
+
+			let key = Self::derived_key(frame_system::Module::<T>::block_number());
+			// let data = IndexingData(b"submit_number_unsigned".to_vec(), number);
+			let data = IndexingData(msg);
+			offchain_index::set(&key, &data.encode());
+			Ok(())
+		}
+
+		#[pallet::call_index(6)]
+		#[pallet::weight(0)]
+		pub fn unsigned_extrinsic_with_signed_payload(origin: OriginFor<T>, payload: Payload<T::Public>, _signature: T::Signature,) -> DispatchResult {
+			ensure_none(origin)?;
+
+			log::info!("OCW ==> in call unsigned_extrinsic_with_signed_payload: {:?}", payload.number);
+			// Return a successful DispatchResultWithPostInfo
+			Ok(())
+		}
+
 		#[pallet::call_index(0)]
 		#[pallet::weight(0)]
 		pub fn create(origin: OriginFor<T>, name: [u8; 8]) -> DispatchResult {
@@ -240,7 +402,37 @@ pub mod pallet {
 
 	}
 
+	const ONCHAIN_TX_KEY: &[u8] = b"kitties_pallet::indexing1";
+
+	#[derive(Debug, Deserialize, Encode, Decode, Default)]
+	struct IndexingData(Vec<u8>);
+
+	#[derive(Encode, Decode, Clone, PartialEq, Eq, RuntimeDebug, scale_info::TypeInfo)]
+	pub struct Payload<Public> {
+		number: u64,
+		public: Public,
+	}
+
+	impl<T: SigningTypes> SignedPayload<T> for Payload<T::Public> {
+		fn public(&self) -> T::Public {
+			self.public.clone()
+		}
+	}
+
 	impl <T: Config> Pallet<T> {
+		fn derived_key(block_number: T::BlockNumber) -> Vec<u8> {
+			let a =block_number.using_encoded(|encoded_bn| {
+				ONCHAIN_TX_KEY.clone().into_iter()
+					.chain(b"/".into_iter())
+					.chain(encoded_bn)
+					.copied()
+					.collect::<Vec<u8>>()
+			});
+			log::info!("==============>{:?}", a);
+			log::info!("==============>{:?}", str::from_utf8(&a));
+			a
+		}
+
 		fn get_next_id() -> Result<KittyId, DispatchError>{
 			NextKittyId::<T>::try_mutate(|next_id| -> Result<KittyId, DispatchError> {
 				let current_id = *next_id;
@@ -263,4 +455,11 @@ pub mod pallet {
 		}
 	}
 
+	// #[pallet::hooks]
+	// impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
+	// 	/// Offchain worker entry point.
+	// 	fn offchain_worker(_block_number: T::BlockNumber) {
+	// 		log::info!("OCW ==> Failed in offchain_unsigned_tx");
+	// 	}
+	// }
 }

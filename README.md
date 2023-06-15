@@ -7,36 +7,35 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 3](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
 
-## 跟着视频完成kitties pallet
+[Lesson 4](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
 
-- 增加Currency, sale/buy方法后Pallet 可以编译
-- 增加新的测试用例
-- 修改runtime, node可以编译通过
-- node节点可以启动
+```./target/release/node-template --dev --enable-offchain-indexing true```
 
+## 请回答链上随机数（如前面Kitties示例中）与链下随机数的区别
 
-<img src="./docs/images/L3-1.jpg" width=800>
+答：链上随机数（确定性可验证的，随机程度低）vs 链下随机数（非确定性不可验证的，增加合适的墒源后随机程度可以非常高）
 
-```./target/release/node-template --dev```
+## 在Offchain Worker中，使用Offchain Indexing特性实现从链上向Offchain Storage中写入数据
 
-<img src="./docs/images/L3-2.jpg" width=800>
+<img src="./docs/images/L4-SavingOffchainIndexing.jpg" width=800>
 
-```cargo test -p pallet-kitties```
+（图一）调用链上方法，向Offchain Storage中写入数据
 
-## Runtime升级
+<img src="./docs/images/L4-ReadingOffchainIndexing.jpg" width=800>
 
-- Kitties pallet v2，将kitties name扩充到8个字节
-- 完成migration代码
-- 验证从v0-v2, v1-v2的升级路径
+（图二）从Offchain Worker中读取刚刚写入的数据
 
-<img src="./docs/images/L3-3.jpg" width=800>
+## 使用 js sdk 从浏览器frontend获取到前面写入Offchain Storage的数据
 
-<img src="./docs/images/L3-v1.png" width=800>
+<img src="./docs/images/L4-ReadingOffchainIndexingFromJSSDK.jpg" width=800>
 
-<img src="./docs/images/L3-v2.png" width=800>
+（图三）使用js sdk获取Offchain Storage数据
 
+## 设计一个场景实例（比如获取一个外部的价格信息），实现从OCW中向链上发起带签名负载的不签名交易，并在Runtime中正确处理
 
-[Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L4`
+<img src="./docs/images/L4-unsigned_extrinsic_with_signed_payload.jpg" width=800>
+
+（图四）当Offchain worker发现Offchain Storage有某种数据后，执行某些操作并向链上发起带签名负载的不签名交易
 
 [Lesson 5 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L5`
 
