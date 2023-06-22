@@ -9,35 +9,33 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 [Lesson 4](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
 
+[Lesson 5](https://github.com/brrr/substrate-intermediate) `branch: L5`
+
+## 自己完成并部署一个erc20的智能合约
+
+1. 将contract的相关pallet引入，并修改runtime配置
+2. 新建erc20的智能合约，并编译。代码位于 ./contracts/erc20
+
+```cargo contract new  erc20```
+
+```cargo contract build```
+
+<img src="./docs/images/L5-contract-compiling.jpg" width=800>
+
+3. 运行erc20智能合约的单元测试
+
+<img src="./docs/images/L5-contract-tested.jpg" width=800>
+
+4. 启动包含了contract相关pallet的链
+
 ```./target/release/node-template --dev --enable-offchain-indexing true```
 
-## 请回答链上随机数（如前面Kitties示例中）与链下随机数的区别
+5. 通过https://contracts-ui.substrate.io/部署智能合约
 
-答：链上随机数（确定性可验证的，随机程度低）vs 链下随机数（非确定性不可验证的，增加合适的墒源后随机程度可以非常高）
+<img src="./docs/images/L5-contract-deploying.jpg" width=800>
 
-## 在Offchain Worker中，使用Offchain Indexing特性实现从链上向Offchain Storage中写入数据
+<img src="./docs/images/L5-contract-deployed.jpg" width=800>
 
-<img src="./docs/images/L4-SavingOffchainIndexing.jpg" width=800>
-
-（图一）调用链上方法，向Offchain Storage中写入数据
-
-<img src="./docs/images/L4-ReadingOffchainIndexing.jpg" width=800>
-
-（图二）从Offchain Worker中读取刚刚写入的数据
-
-## 使用 js sdk 从浏览器frontend获取到前面写入Offchain Storage的数据
-
-<img src="./docs/images/L4-ReadingOffchainIndexingFromJSSDK.jpg" width=800>
-
-（图三）使用js sdk获取Offchain Storage数据
-
-## 设计一个场景实例（比如获取一个外部的价格信息），实现从OCW中向链上发起带签名负载的不签名交易，并在Runtime中正确处理
-
-<img src="./docs/images/L4-unsigned_extrinsic_with_signed_payload.jpg" width=800>
-
-（图四）当Offchain worker发现Offchain Storage有某种数据后，执行某些操作并向链上发起带签名负载的不签名交易
-
-[Lesson 5 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L5`
 
 [Lesson 6 (TODO)](https://github.com/brrr/substrate-intermediate) `branch: L6`
 

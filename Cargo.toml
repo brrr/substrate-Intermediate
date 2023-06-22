@@ -5,5 +5,8 @@ members = [
     "pallets/kitties",
     "runtime",
 ]
+exclude = [
+    "contracts/erc20",
+]
 [profile.release]
 panic = "unwind"
