@@ -94,18 +94,28 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 				get_account_id_from_seed::<sr25519::Public>("Alice"),
 				// Pre-funded accounts
 				vec![
-					get_account_id_from_seed::<sr25519::Public>("Alice"),
-					get_account_id_from_seed::<sr25519::Public>("Bob"),
-					get_account_id_from_seed::<sr25519::Public>("Charlie"),
-					get_account_id_from_seed::<sr25519::Public>("Dave"),
-					get_account_id_from_seed::<sr25519::Public>("Eve"),
-					get_account_id_from_seed::<sr25519::Public>("Ferdie"),
-					get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Charlie//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Dave//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Eve//stash"),
-					get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
+					//5ED5tKkWQ3F6b6LUwhgEq21QF1hJng4sD5ruMQyJtJw5jSop
+					hex!["5edc95b6a28b06c4e525e9df8cb8cd16f9901c72c320344af67911fbe4c79171"].into();
+					//5G9BudKJWiQHKSN2m2p4rJFWhMZES8gWxW75EkvPcmRoyzA8
+					hex!["b45c57f132086c56df5333dcb84c33e99adefcc1d00924be5977f83b1fc9fc4c"].into();
+					//5GE3J1sQmaHfYiNbhrUfWx83Y65LyGiUhJtf7zKbfMP1rYt7
+					hex!["b80f92c2ea7145cd4e37bc9ac7dd9684d966388beb695568760134b96c4b0731"].into();
+					//5DZc11UovP2CEBQyGcfGU1wJms14xb7WYspaNbty23sJWpy1
+					hex!["4246a2ee5253622eba8044532d3861b927ccfb58db60e9755de1644974667047"].into();
+
+
+					// get_account_id_from_seed::<sr25519::Public>("Alice"),
+					// get_account_id_from_seed::<sr25519::Public>("Bob"),
+					// get_account_id_from_seed::<sr25519::Public>("Charlie"),
+					// get_account_id_from_seed::<sr25519::Public>("Dave"),
+					// get_account_id_from_seed::<sr25519::Public>("Eve"),
+					// get_account_id_from_seed::<sr25519::Public>("Ferdie"),
+					// get_account_id_from_seed::<sr25519::Public>("Alice//stash"),
+					// get_account_id_from_seed::<sr25519::Public>("Bob//stash"),
+					// get_account_id_from_seed::<sr25519::Public>("Charlie//stash"),
+					// get_account_id_from_seed::<sr25519::Public>("Dave//stash"),
+					// get_account_id_from_seed::<sr25519::Public>("Eve//stash"),
+					// get_account_id_from_seed::<sr25519::Public>("Ferdie//stash"),
 				],
 				true,
 			)
@@ -133,6 +143,20 @@ fn testnet_genesis(
 	_enable_println: bool,
 ) -> GenesisConfig {
 	GenesisConfig {
+		// let initial_authorities: Vec<
+		// 	(
+		// 		AccountId,
+		// 		AccountId,
+		// 		BabeId,
+		// 		GrandpaId,
+		// 		ImOnlineId,
+		// 		)> = vec![(
+		// 		hex!["xxxxxx"].into(),
+		// 	)]
+
+		// session: Some(SessionConfig{
+		// 	keys:
+		// })
 		system: SystemConfig {
 			// Add Wasm runtime to storage.
 			code: wasm_binary.to_vec(),
