@@ -176,6 +176,111 @@ Secret Key URI `//br//grandpa//4` is account:
   SS58 Address:      5EETX3onKHPat4ug6kbasmwZDJqhznBnR96W9tXuMSJncZTE
 
 ```
+
+```shell
+for i in 1 2 3 4 ; do for j in imonline; do ./subkey inspect "//br//$j//$i"; done; done
+```
+
+```text
+Secret Key URI `//br//imonline//1` is account:
+  Network ID:        substrate 
+ Secret seed:       0x921349d3e5961cb4e1dab0268f011ec2cfe8c90a6593b3a270cb8f8f31cd870a
+  Public key (hex):  0xcac0904b34d7ad1366f19b8accadbaba2a7c1ef461bd2a82c149511db9ec8040
+  Account ID:        0xcac0904b34d7ad1366f19b8accadbaba2a7c1ef461bd2a82c149511db9ec8040
+  Public key (SS58): 5GeYjUpB17VQc1vx31xPdteB9rV5u2ByHos4i6NFmVm4PZmH
+  SS58 Address:      5GeYjUpB17VQc1vx31xPdteB9rV5u2ByHos4i6NFmVm4PZmH
+Secret Key URI `//br//imonline//2` is account:
+  Network ID:        substrate 
+ Secret seed:       0x92904754c3908da7f410929bad3d778bb4a9935d49fb035e069c75b9e60adb0b
+  Public key (hex):  0x02225bd86f0118acff64dadd802c8df5fd64201a9db252bcde8a80b7fcb8ec0b
+  Account ID:        0x02225bd86f0118acff64dadd802c8df5fd64201a9db252bcde8a80b7fcb8ec0b
+  Public key (SS58): 5C7WADCp3zECYE6VwvDhuCrnbBSVaV7YmDeAXkLH7bv9mfqK
+  SS58 Address:      5C7WADCp3zECYE6VwvDhuCrnbBSVaV7YmDeAXkLH7bv9mfqK
+Secret Key URI `//br//imonline//3` is account:
+  Network ID:        substrate 
+ Secret seed:       0x8f3dd8ecd654d9ca06a3f9ef904a37e7e0409d635f4fbdd0b806dddb46ff9289
+  Public key (hex):  0xa4fa237ff4b59966b6a27d43370f3b6581d89f86ec932e7449bbfdfff5cd4e61
+  Account ID:        0xa4fa237ff4b59966b6a27d43370f3b6581d89f86ec932e7449bbfdfff5cd4e61
+  Public key (SS58): 5Fo21wJRZEELqyM2CQTsuivT9f74dRz223YzmXbHnpRncXFW
+  SS58 Address:      5Fo21wJRZEELqyM2CQTsuivT9f74dRz223YzmXbHnpRncXFW
+Secret Key URI `//br//imonline//4` is account:
+  Network ID:        substrate 
+ Secret seed:       0x3f67db3e5da09ce1defa59cbb7f18bb4d66c36069ee516aa9db6da856ecdde73
+  Public key (hex):  0x04a6494aca156c5aec62f6ac329b2a77623764f409f3a20ef3b9e07572264633
+  Account ID:        0x04a6494aca156c5aec62f6ac329b2a77623764f409f3a20ef3b9e07572264633
+  Public key (SS58): 5CAoSpktMsqggkL1G4yo8BkbVg3XS4Ro9sg4QXWphfSkXrQP
+  SS58 Address:      5CAoSpktMsqggkL1G4yo8BkbVg3XS4Ro9sg4QXWphfSkXrQP
+
+```
+
+```shell
+for i in 1 2 3 4 ; do for j in authority; do ./subkey inspect "//br//$j//$i"; done; done
+```
+
+```text
+Secret Key URI `//br//authority//1` is account:
+  Network ID:        substrate 
+ Secret seed:       0x1b4ed3978d450fe8bbc84d7b548d491b481c5a51c9bb7a20f3e01170e5bb375d
+  Public key (hex):  0x88f960e4d2ba1c165573230528388c6371871451e5d69b3aae191604c7284073
+  Account ID:        0x88f960e4d2ba1c165573230528388c6371871451e5d69b3aae191604c7284073
+  Public key (SS58): 5FAJT5HUdSdvrABBBnBi3BTKHP4WFNqp4dvUspWoB2m9vmkY
+  SS58 Address:      5FAJT5HUdSdvrABBBnBi3BTKHP4WFNqp4dvUspWoB2m9vmkY
+Secret Key URI `//br//authority//2` is account:
+  Network ID:        substrate 
+ Secret seed:       0x19d8e38334a137bedecb4c98d8da4ff3eae5aec4e9c45ca0b3ae9f41b5468dba
+  Public key (hex):  0x3091bd4aac4950ccdae7e54ee70655529c463d000429edac3afb2384235ec72d
+  Account ID:        0x3091bd4aac4950ccdae7e54ee70655529c463d000429edac3afb2384235ec72d
+  Public key (SS58): 5DAPT1d2wmcRWEKftTXGhrtXYMzYYdBYUgojswfPvnHVuFMg
+  SS58 Address:      5DAPT1d2wmcRWEKftTXGhrtXYMzYYdBYUgojswfPvnHVuFMg
+Secret Key URI `//br//authority//3` is account:
+  Network ID:        substrate 
+ Secret seed:       0x01b50f06fecb1c9dc3fd79bc37aabb2915a2661e5f23f4092bc0337ff960f790
+  Public key (hex):  0x1e14742041e508d7ec9801e61682f53930c4d80eee946f7a3347004c75bbad71
+  Account ID:        0x1e14742041e508d7ec9801e61682f53930c4d80eee946f7a3347004c75bbad71
+  Public key (SS58): 5Ck9NPuakr8CCuDfRSZSAAhsWBAecgKQe8NQLuhVqiYEPZPr
+  SS58 Address:      5Ck9NPuakr8CCuDfRSZSAAhsWBAecgKQe8NQLuhVqiYEPZPr
+Secret Key URI `//br//authority//4` is account:
+  Network ID:        substrate 
+ Secret seed:       0xc1c34a43c64f3799be69b20a4e7bed1b857e49b4808c0b1a1d5282a9060bfd61
+  Public key (hex):  0x9861881fb2644072055f61f65e307c3571d707499a63a9e3a7f321ed1759074c
+  Account ID:        0x9861881fb2644072055f61f65e307c3571d707499a63a9e3a7f321ed1759074c
+  Public key (SS58): 5FWW7FdCSGNvcmxRhJNSFmaFKDHMATiqagcX2MKsub2wBopz
+  SS58 Address:      5FWW7FdCSGNvcmxRhJNSFmaFKDHMATiqagcX2MKsub2wBopz
+
+```
+
+```shell
+./subkey inspect "//br//fir"
+```
+
+```text
+Secret Key URI `//br//fir` is account:
+  Network ID:        substrate 
+ Secret seed:       0x9a8bb38290c520ec64bcbfe2151f5e58c003134fb3cec0a3297b533ee1805479
+  Public key (hex):  0x2ccddc603bf0436482e1f1f30c2a3d2752cac053132e7969fa3a43caa075b26b
+  Account ID:        0x2ccddc603bf0436482e1f1f30c2a3d2752cac053132e7969fa3a43caa075b26b
+  Public key (SS58): 5D5T7mdTV5kCqSy8wift4VEy3eUmK8LUJGbr7x9n6ka8cDZB
+  SS58 Address:      5D5T7mdTV5kCqSy8wift4VEy3eUmK8LUJGbr7x9n6ka8cDZB
+```
+
+2. 非常耗时的把Runtime及Node从PoA升级到PoS,增加治理模块，并且调整chain_spec.rs
+
+<img src="./docs/images/L6-accounts.jpg">
+
+4. 生成chain-spec
+
+```shell
+./target/release/node-template build-spec --chain staging > staging-node-1.json
+```
+
+<img src="./docs/images/L6-chain-spec.jpg">
+
+```shell
+./target/release/node-template build-spec --chain=staging-node-1.json --raw > staging-raw-node-1.json
+```
+
+<img src="./docs/images/L6-chain-spec-raw.jpg">
+
 # Substrate Node Template
 
 A fresh [Substrate](https://substrate.io/) node, ready for hacking :rocket:
