@@ -12,15 +12,15 @@ generated from substrate-developer-hub/substrate-node-template : polkadot-v0.9.4
 
 ```cargo test -p pallet-poe```
 
-[Lesson 2 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
+[Lesson 2](https://github.com/brrr/substrate-intermediate/tree/L2) `branch: L2`
 
-[Lesson 3 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
+[Lesson 3](https://github.com/brrr/substrate-intermediate/tree/L3) `branch: L3`
 
-[Lesson 4 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
+[Lesson 4](https://github.com/brrr/substrate-intermediate/tree/L4) `branch: L4`
 
-[Lesson 5 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L5) `branch: L5`
+[Lesson 5](https://github.com/brrr/substrate-intermediate/tree/L5) `branch: L5`
 
-[Lesson 6 (TODO)](https://github.com/brrr/substrate-intermediate/tree/L6) `branch: L6`
+[Lesson 6](https://github.com/brrr/substrate-intermediate/tree/L6) `branch: L6`
 
 # Substrate Node Template
 

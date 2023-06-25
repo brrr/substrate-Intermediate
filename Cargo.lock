@@ -4405,6 +4405,7 @@ dependencies = [
  "pallet-aura",
  "pallet-balances",
  "pallet-grandpa",
+ "pallet-poe",
  "pallet-sudo",
  "pallet-template",
  "pallet-timestamp",
@@ -4685,7 +4686,7 @@ dependencies = [
 
 [[package]]
 name = "pallet-poe"
-version = "0.0.1"
+version = "4.0.0-dev"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4695,6 +4696,7 @@ dependencies = [
  "sp-core",
  "sp-io",
  "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]

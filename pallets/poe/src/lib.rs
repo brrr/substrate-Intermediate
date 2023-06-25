@@ -17,16 +17,27 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub use pallet::*;
+pub use weights::WeightInfo;
 
 #[cfg(test)]
 mod mock;
 #[cfg(test)]
 mod tests;
+#[cfg(feature = "runtime-benchmarks")]
+mod benchmarking;
+
+pub mod weights;
 
 #[frame_support::pallet]
 pub mod pallet {
-    use frame_support::pallet_prelude::*;
-    use frame_system::pallet_prelude::*;
+    #[allow(unused)]
+    use frame_support::log;
+    pub use frame_support::pallet_prelude::*;
+    pub use frame_system::pallet_prelude::*;
+    pub use sp_std::vec;
+    pub use super::weights::WeightInfo;
+
+    // use sp_runtime::RuntimeDebug;
 
     #[pallet::config]
     pub trait Config: frame_system::Config {
@@ -34,6 +45,7 @@ pub mod pallet {
         #[pallet::constant]
         type MaxClaimLength: Get<u32>;
         type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
+        type WeightInfo: WeightInfo;
     }
 
     #[pallet::pallet]
@@ -76,7 +88,7 @@ pub mod pallet {
 
         ///创建存证
         #[pallet::call_index(0)]
-        #[pallet::weight(0)]
+        #[pallet::weight(T::WeightInfo::create_claim(claim.len() as u32))]
         pub fn create_claim(
             origin: OriginFor<T>,
             claim: BoundedVec<u8, T::MaxClaimLength>
@@ -93,7 +105,7 @@ pub mod pallet {
 
         ///吊销存证
         #[pallet::call_index(1)]
-        #[pallet::weight(0)]
+        #[pallet::weight(T::WeightInfo::revoke_claim(claim.len() as u32))]
         pub fn revoke_claim(
             origin: OriginFor<T>,
             claim: BoundedVec<u8, T::MaxClaimLength>
@@ -109,18 +121,18 @@ pub mod pallet {
 
         /// 转移存证
         #[pallet::call_index(2)]
-        #[pallet::weight(0)]
+        #[pallet::weight(T::WeightInfo::transfer_claim(claim.len() as u32))]
         pub fn transfer_claim(
             origin: OriginFor<T>,
             dest: T::AccountId,
             claim: BoundedVec<u8, T::MaxClaimLength>
         ) -> DispatchResultWithPostInfo {
             let sender = ensure_signed(origin)?;
-            let (owner, blockNumber) = Proofs::<T>::get(&claim).ok_or(Error::<T>::ClaimNotExist)?;
+            let (owner, block_number) = Proofs::<T>::get(&claim).ok_or(Error::<T>::ClaimNotExist)?;
             ensure!(owner == sender, Error::<T>::NotClaimOwner);
             ensure!(dest != sender, Error::<T>::TransferToSelf);
 
-            Proofs::<T>::set(&claim, Some((dest.clone(), blockNumber.clone())));
+            Proofs::<T>::set(&claim, Some((dest.clone(), block_number.clone())));
             Self::deposit_event(Event::ClaimTransferred(sender, dest, claim));
 
             Ok(().into())
